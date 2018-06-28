@@ -46,6 +46,12 @@ export default class TopicList extends React.Component {
                         <ListItem
                             title={topic.title}
                             key={topic.id}
+                            onPress={
+                                () => {
+                                    this.props.navigation
+                                        .navigate('WidgetList', {topicId: topic.id})
+                                }
+                            }
                         />
 
 

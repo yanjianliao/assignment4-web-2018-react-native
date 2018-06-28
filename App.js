@@ -6,6 +6,7 @@ import CourseList from './components/CourseList'
 import ModuleList from './components/ModuleList'
 import LessonList from './components/LessonList'
 import TopicList from './components/TopicList'
+import WidgetList from './components/WidgetList'
 
 class Home extends React.Component {
 
@@ -38,7 +39,8 @@ const App = createStackNavigator({
     CourseList,
     ModuleList,
     LessonList,
-    TopicList
+    TopicList,
+    WidgetList
 });
 
 
