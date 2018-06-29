@@ -7,6 +7,7 @@ import ModuleList from './components/ModuleList'
 import LessonList from './components/LessonList'
 import TopicList from './components/TopicList'
 import WidgetList from './components/WidgetList'
+import AddAssignment from './components/AddAssignment'
 
 class Home extends React.Component {
 
@@ -28,6 +29,12 @@ class Home extends React.Component {
                 onPress={() => this.props.navigation
                     .navigate('CourseList')}
           />
+          <Button
+              title='Go to TopicList'
+              onPress={() => this.props.navigation
+                  .navigate('TopicList', {courseId: 42, moduleId: 102, lessonId: 52})
+              }
+          />
       </ScrollView>
     );
   }
@@ -40,7 +47,8 @@ const App = createStackNavigator({
     ModuleList,
     LessonList,
     TopicList,
-    WidgetList
+    WidgetList,
+    AddAssignment
 });
 
 
