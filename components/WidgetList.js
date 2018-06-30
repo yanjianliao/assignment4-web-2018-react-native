@@ -1,9 +1,11 @@
 import React from 'react'
-import {View, Alert} from 'react-native'
+import {View, Alert, ScrollView} from 'react-native'
 import {ListItem, Text, Button, Icon} from 'react-native-elements'
-import AddAssignment from "./AddAssignment";
+import AssignmentWidget from "./AssignmentWidget";
 import AssignmentListItem from "./AssignmentListItem";
 import AssignmentServiceClient from "../services/AssignmentServiceClient";
+import ExamServiceClient from "../services/ExamServiceClient";
+import ExamListItem from "./ExamListItem";
 const WIDGET_API = 'http://localhost:8080/api/topic/';
 
 export default class WidgetList extends React.Component {
@@ -15,10 +17,12 @@ export default class WidgetList extends React.Component {
             widgets: [],
             courseId: 1,
             moduleId: 1,
-            assignments: []
+            assignments: [],
+            exams: []
         };
 
         this.assignmentService = AssignmentServiceClient.instance;
+        this.examService = ExamServiceClient.instance;
         this.refresh = this.refresh.bind(this);
     }
 
@@ -29,17 +33,23 @@ export default class WidgetList extends React.Component {
     refresh() {
         const {navigation} = this.props;
         const topicId = navigation.getParam('topicId', 1);
+
         this.assignmentService.findAllAssignmentsForTopic(topicId)
-            .then(assignments => this.setState({assignments:assignments})).then(
-            () =>  console.log(this.state.assignments)
-        );
+            .then(assignments => this.setState({assignments:assignments}));
+
+        this.examService.findAllExamsForTopic(topicId)
+            .then(exams => this.setState({exams: exams}));
+
     }
 
 
 
     render() {
+        let {navigation} = this.props;
+        let topicId = navigation.getParam('topicId', 1);
+
         return (
-            <View style={{padding: 15}}>
+            <ScrollView style={{padding: 15}}>
                 <Text h3>
                     Assignments
                 </Text>
@@ -49,7 +59,7 @@ export default class WidgetList extends React.Component {
                             assignment={assignment}
                             key={assignment.id}
                             refresh={this.refresh}
-                            navigation={this.props.navigation}
+                            navigation={navigation}
                         />)
                 )}
 
@@ -59,27 +69,47 @@ export default class WidgetList extends React.Component {
                         style={{marginTop: 20}}
                         title="Add new assignment"
                         onPress={() => {
-                            this.props.navigation.navigate('AddAssignment',
-                                {topicId: this.props.navigation.getParam('topicId', 1),
-                                refresh: this.refresh});
+                                navigation.navigate('AssignmentWidget', {
+                                    topicId: topicId,
+                                    refresh: this.refresh
+                                });
                         }}
                 />
 
-
-                <Button backgroundColor="green"
-                        color="white"
-                        style={{marginTop: 20}}
-                        title="print"
-                        onPress={() => {
-                            console.log('youdf');
-                        }}
-                />
 
                 <Text h3>
                     Exams
                 </Text>
 
-            </View>
+                {this.state.exams.map(
+                    (exam, index) =>
+                        (<ExamListItem
+                            exam={exam}
+                            key={exam.id}
+                            refresh={this.refresh}
+                            navigation={navigation}
+                        />)
+                )}
+
+
+
+
+
+                <Button backgroundColor="green"
+                        color="white"
+                        style={{marginTop: 20}}
+                        title="Add new exam"
+                        onPress={() => {
+                            navigation.navigate('ExamWidget', {
+                                topicId: topicId,
+                                refresh: this.refresh
+                            })
+                        }}
+                />
+
+
+
+            </ScrollView>
         )
     }
 

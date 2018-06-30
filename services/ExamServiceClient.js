@@ -1,0 +1,45 @@
+
+const EXAM_API_1 = 'http://localhost:8080/api/topic/TID/exam';
+const EXAM_API_2 = 'http://localhost:8080/api/exam/';
+let _singleton = Symbol();
+
+export default class ExamServiceClient {
+    constructor(singleToken) {
+        if(_singleton !== singleToken) {
+            throw new Error('Cannot instantiate directly!')
+        }
+    }
+
+    static get instance() {
+        if(!this[_singleton])
+            this[_singleton] = new ExamServiceClient(_singleton);
+
+        return this[_singleton];
+    }
+
+    findAllExamsForTopic(topicId) {
+        return fetch(EXAM_API_1.replace("TID", topicId))
+            .then(response => response.json());
+    }
+
+    createExamForTopic(topicId, exam) {
+        return fetch(EXAM_API_1.replace('TID', topicId), {
+            method: 'post',
+            body: JSON.stringify(exam),
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }).then(
+            response => response.json()
+        )
+    }
+
+
+    deleteExamById(examId) {
+        return fetch(EXAM_API_2 + examId, {
+            method : 'delete'
+        });
+    }
+
+
+}

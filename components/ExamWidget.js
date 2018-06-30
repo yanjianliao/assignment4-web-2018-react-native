@@ -1,50 +1,47 @@
 import React from 'react'
 import {View} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox} from 'react-native-elements'
-import AssignmentServiceClient from '../services/AssignmentServiceClient'
+import ExamServiceClient from '../services/ExamServiceClient'
 
-
-export default class AddAssignment extends React.Component {
+export default class ExamWidget extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            title: 'default title',
-            description: 'default description',
-            topicId: 1,
-            points: '0'
+            description: '',
+            title: '',
+            points: '',
         };
 
-        this.assignmentService = AssignmentServiceClient.instance;
-        this.createNewAssignment = this.createNewAssignment.bind(this);
+        this.examService = ExamServiceClient.instance;
     }
 
-    createNewAssignment() {
-        const refresh = this.props.navigation.getParam('refresh');
-        this.assignmentService
-            .createAssignmentForTopic(
-                this.props.navigation.getParam('topicId', 1),
-            {
-                title: this.state.title,
-                description: this.state.description,
-                points: this.state.points
-            }).then(() => {
+    createExamForTopic() {
+        let {navigation} = this.props;
+        let topicId = navigation.getParam('topicId', 1);
+        let refresh = navigation.getParam('refresh');
+
+        this.examService.createExamForTopic(topicId, {
+            title : this.state.title,
+            description: this.state.description,
+            points: this.state.points
+        }).then(
+            () => {
                 refresh();
-                this.props.navigation.goBack();
-            });
+                navigation.goBack();
+            }
 
-
+        )
     }
 
     render() {
-
-        return (
+        return(
 
             <View>
 
                 <Text h4>
-                    Add New Assignment
+                    Add New Exam
                 </Text>
 
                 <FormLabel>
@@ -54,6 +51,7 @@ export default class AddAssignment extends React.Component {
                 <FormInput onChangeText={
                     text => this.setState({title: text})
                 }/>
+
                 <FormLabel>
                     Description
                 </FormLabel>
@@ -74,7 +72,7 @@ export default class AddAssignment extends React.Component {
                         style={{marginTop: 20}}
                         color="white"
                         title="Save"
-                        onPress={() => this.createNewAssignment()}
+                        onPress={() => this.createExamForTopic()}
                 />
 
                 <Text h4>
@@ -87,14 +85,19 @@ export default class AddAssignment extends React.Component {
 
                 <Text h4>
                     description : {this.state.description}
-                    {this.state.points}
                 </Text>
+
+                
+
+
             </View>
 
 
+
+
         )
-
-
     }
+
+
 
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import {View, Text} from 'react-native'
 import {ListItem, Button, Icon} from 'react-native-elements'
 import AssignmentServiceClient from "../services/AssignmentServiceClient";
-import AssignmentWidget from "./AssignmentWidget";
+import EditAssignmentWidget from "./EditAssignmentWidget";
 
 export default class AssignmentListItem extends React.Component {
 
@@ -29,7 +29,7 @@ export default class AssignmentListItem extends React.Component {
                                                 this.props.refresh();
                                             }
                                         )
-                                }
+                                    }
                                 }
                                 color='black' />}
 
@@ -40,7 +40,7 @@ export default class AssignmentListItem extends React.Component {
                                 onPress={
                                     () => {
                                         this.props.navigation.navigate(
-                                            'AssignmentWidget',{
+                                            'EditAssignmentWidget',{
                                                 assignment: this.props.assignment,
                                                 refresh: this.props.refresh
                                             }

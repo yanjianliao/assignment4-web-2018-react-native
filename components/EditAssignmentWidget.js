@@ -3,61 +3,70 @@ import {View, Alert, TextInput, ScrollView} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox} from 'react-native-elements'
 import AssignmentServiceClient from '../services/AssignmentServiceClient'
 
+export default class EditAssignmentWidget extends React.Component {
 
-export default class AssignmentWidget extends React.Component {
+    static navigationOptions = {title: 'AssignmentWidgets'};
 
     constructor(props) {
         super(props);
-
         this.state = {
-            title: '',
             description: '',
-            topicId: 1,
-            points: '0'
+            title: '',
+            points: '0',
+            id: 1
         };
-
+        this.update = this.update.bind(this);
         this.assignmentService = AssignmentServiceClient.instance;
-        this.createNewAssignment = this.createNewAssignment.bind(this);
     }
 
-    createNewAssignment() {
-        const refresh = this.props.navigation.getParam('refresh');
-        this.assignmentService
-            .createAssignmentForTopic(
-                this.props.navigation.getParam('topicId', 1),
-                {
-                    title: this.state.title,
-                    description: this.state.description,
-                    points: this.state.points
-                }).then(() => {
-            refresh();
-            this.props.navigation.goBack();
+    componentDidMount() {
+        const {navigation} = this.props;
+        const assignment = navigation.getParam('assignment', 1);
+
+        this.setState({
+            description: assignment.description,
+            title: assignment.title,
+            points: assignment.points,
+            id: assignment.id
         });
+    }
 
-
+    update() {
+        const {navigation} = this.props;
+        const assignment = {
+            title: this.state.title,
+            description: this.state.description,
+            points: this.state.points
+        };
+        const refresh = navigation.getParam('refresh');
+        this.assignmentService
+            .updateAssignmentById(this.state.id, assignment)
+            .then(
+                () => {
+                    refresh();
+                    navigation.goBack();
+                }
+            )
     }
 
     render() {
-
         return (
-
-            <ScrollView  style={{padding: 20}}>
-                <Text h4>
-                    Add New Assignment
-                </Text>
-
+            <ScrollView style={{padding: 20}}>
                 <FormLabel>
                     Title
                 </FormLabel>
-
-                <FormInput onChangeText={
-                    text => this.setState({title: text})
-                }/>
+                <FormInput
+                    value={this.state.title}
+                    onChangeText={
+                    text => this.setState({title: text})}
+                />
                 <FormLabel>
                     Description
                 </FormLabel>
 
-                <FormInput onChangeText={
+                <FormInput
+                    value={this.state.description}
+                    onChangeText={
                     text => this.setState({description: text})
                 }/>
 
@@ -65,21 +74,22 @@ export default class AssignmentWidget extends React.Component {
                     Points
                 </FormLabel>
 
-                <FormInput onChangeText={
-                    text => this.setState({points: text})
-                }/>
+                <FormInput
+                    value={this.state.points}
+                    onChangeText={
+                        text => this.setState({points: text})
+                    }/>
 
                 <Button backgroundColor="green"
-                        style={{marginTop: 20}}
                         color="white"
-                        title="Save"
-                        onPress={() => this.createNewAssignment()}
+                        title="update"
+                        onPress={this.update}
                 />
 
-                <Text h4>
-                    Preview
-                </Text>
 
+                <Text h3>
+                    Preview:
+                </Text>
                 <View style={{
                     flexDirection : 'row',
                     justifyContent: 'space-between'
@@ -126,7 +136,7 @@ export default class AssignmentWidget extends React.Component {
                     style={{borderRadius: 5}}
                     backgroundColor="white"
                     multiline={true}
-                />
+               />
 
                 <View style={{flexDirection : 'row', borderRadius: 5}}>
                     <Button backgroundColor="red"
@@ -143,9 +153,10 @@ export default class AssignmentWidget extends React.Component {
             </ScrollView>
 
 
+
+
         )
-
-
     }
+
 
 }
