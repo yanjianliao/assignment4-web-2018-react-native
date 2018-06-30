@@ -12,20 +12,24 @@ export default class AddAssignment extends React.Component {
         this.state = {
             title: 'default title',
             description: 'default description',
-            topicId: 1
+            topicId: 1,
+            points: '0'
         };
 
         this.assignmentService = AssignmentServiceClient.instance;
         this.createNewAssignment = this.createNewAssignment.bind(this);
-
     }
 
     createNewAssignment() {
         const refresh = this.props.navigation.getParam('refresh');
         this.assignmentService
-            .createAssignmentForTopic(this.props.navigation.getParam('topicId', 1),
-            {title: this.state.title, description: this.state.description})
-            .then(() => {
+            .createAssignmentForTopic(
+                this.props.navigation.getParam('topicId', 1),
+            {
+                title: this.state.title,
+                description: this.state.description,
+                points: this.state.points
+            }).then(() => {
                 refresh();
                 this.props.navigation.goBack();
             });
@@ -39,7 +43,7 @@ export default class AddAssignment extends React.Component {
 
             <View>
 
-                <Text h3>
+                <Text h4>
                     Add New Assignment
                 </Text>
 
@@ -58,25 +62,32 @@ export default class AddAssignment extends React.Component {
                     text => this.setState({description: text})
                 }/>
 
+                <FormLabel>
+                    Points
+                </FormLabel>
+
+                <FormInput onChangeText={
+                    text => this.setState({points: text})
+                }/>
+
                 <Button backgroundColor="green"
+                        style={{marginTop: 20}}
                         color="white"
                         title="Save"
                         onPress={() => this.createNewAssignment()}
                 />
 
-                <Text h3>
+                <Text h4>
                     Preview
                 </Text>
 
-                <Text h3>
+                <Text h4>
                     title : {this.state.title}
                 </Text>
 
-
-
-                <Text h3>
+                <Text h4>
                     description : {this.state.description}
-                    {this.props.navigation.getParam('topicId', 1)}
+                    {this.state.points}
                 </Text>
             </View>
 

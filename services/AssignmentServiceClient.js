@@ -46,5 +46,13 @@ export default class AssignmentServiceClient {
         });
     }
 
-
+    updateAssignmentById(id, assignment) {
+        return fetch(ASSIGNMENT_API_2 + id, {
+            method: 'put',
+            body: JSON.stringify(assignment),
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        });
+    }
 }
