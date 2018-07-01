@@ -1,5 +1,7 @@
 let _singleton = Symbol();
 const API_1 = 'http://localhost:8080/api/exam/EID/choice';
+const API_2 = 'http://localhost:8080/api/choice/';
+
 
 export default class ChoiceServiceClient {
 
@@ -33,6 +35,17 @@ export default class ChoiceServiceClient {
                 'Content-Type' : 'application/json'
             }
         }).then(response => response.json())
+    }
+
+    updateQuestion(id, question) {
+        console.log(question);
+        return fetch(API_2 + id, {
+            method: 'put',
+            body: JSON.stringify(question),
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        });
     }
 
 

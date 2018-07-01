@@ -1,6 +1,7 @@
 import React from 'react'
 import {Picker, View, ScrollView} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox,Icon} from 'react-native-elements'
+import ChoiceServiceClient from "../services/ChoiceServiceClient";
 
 
 export default class MultipleChoiceEditor extends React.Component {
@@ -13,16 +14,36 @@ export default class MultipleChoiceEditor extends React.Component {
             points: '',
             description: '',
             rightChoiceName: '',
+            rightIndex: -1,
             choices: [{name: '123'},{name: '321'}],
+            newChoiceName: ''
         };
 
         this.renderChoice = this.renderChoice.bind(this);
+        this.choiceServiceClient = ChoiceServiceClient.instance;
 
     }
+
+
+    componentDidMount() {
+        let {navigation} = this.props;
+        let question = navigation.getParam('question');
+        this.setState({
+            subtitle: question.subtitle,
+            title: question.title,
+            points: question.points,
+            description: question.description,
+            rightChoiceName: question.rightChoiceName,
+            choices: question.choices,
+            newChoiceName: ''
+        })
+    }
+
 
     renderChoice() {
         return this.state.choices.map(
             (choice,index) => {
+
                 return (
                     <View
                         key={index}
@@ -31,18 +52,33 @@ export default class MultipleChoiceEditor extends React.Component {
                             flexDirection : 'row',
                             justifyContent: 'space-between',
                             backgroundColor: 'white'
-                    }}>
+                        }}
+                    >
                         <CheckBox
                             center
+                            onPress={
+                                () => this.setState({rightChoiceName: choice.name},
+                                    () => console.log(this.state.rightChoiceName))
+                            }
                             title={choice.name}
                             checkedIcon='dot-circle-o'
                             uncheckedIcon='circle-o'
-                            checked={true}
+                            checked={choice.name === this.state.rightChoiceName}
                         />
                         <Icon
                             name='delete-forever'
                             size={30}
-                            color='black' />
+                            onPress={
+                                () => this.setState({
+                                    choices: this.state.choices.filter(
+                                        (c) => {
+                                            return c.name !== choice.name
+                                        }
+                                    )
+                                })
+                            }
+                            color='black'
+                        />
                     </View>
                 )
             }
@@ -51,6 +87,9 @@ export default class MultipleChoiceEditor extends React.Component {
 
 
     render() {
+        let {navigation} = this.props;
+        let question = navigation.getParam('question');
+        let refresh = navigation.getParam('refresh');
         return (
             <ScrollView>
                 <FormLabel>
@@ -64,17 +103,42 @@ export default class MultipleChoiceEditor extends React.Component {
 
 
                 {this.renderChoice()}
+
+                <FormLabel>
+                    title
+                </FormLabel>
+                <FormInput
+                    value={this.state.newChoiceName}
+                    onChangeText={
+                        text => this.setState({newChoiceName: text})}
+                />
+
                 <Button backgroundColor="green"
                         style={{marginTop: 20}}
                         color="white"
                         title="Add New Choice"
                         onPress={() => {
+                            console.log(this.state.newChoiceName, this.state.rightChoiceName);
                             this.setState({
                                 choices: [
                                     ...this.state.choices,
-                                    {name: 'new'}
+                                    {name: this.state.newChoiceName}
                                 ]
                             });
+
+                        }}
+                />
+                <Button backgroundColor="green"
+                        style={{marginTop: 20}}
+                        color="white"
+                        title="Save"
+                        onPress={() => {
+                            navigation.goBack();
+                            this.choiceServiceClient
+                                .updateQuestion(question.id, this.state)
+                                .then(() => {
+                                    refresh();
+                                });
 
                         }}
                 />

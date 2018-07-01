@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Alert, ScrollView} from 'react-native'
-import {ListItem, Text, Button, Icon} from 'react-native-elements'
+import {ListItem, Text, Button, Icon, } from 'react-native-elements'
 import NewQuestion from "../elements/NewQuestion";
 import BaseServiceClient from "../services/BaseServiceClient";
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
@@ -39,14 +39,15 @@ export default class EditExamWidget extends React.Component {
 
         return this.state.choicesQuestion.map(
             question => {
-                console.log(question);
                 return(
                     <ListItem
                         title={question.title}
                         subtitle={question.subtitle}
                         key={question.id}
                         onPress={() => {
-                            this.props.navigation.navigate('MultipleChoiceEditor');
+                            this.props.navigation.navigate('MultipleChoiceEditor', {
+                                question: question, refresh: this.refresh
+                            });
                         }}
                     />
                 )
@@ -58,6 +59,7 @@ export default class EditExamWidget extends React.Component {
         let {navigation} = this.props;
         let exam = navigation.getParam('exam');
         this.findAllChoice(exam.id);
+        Alert.alert("Saved!");
     }
 
     render() {
