@@ -1,5 +1,5 @@
 import React from 'react'
-import {Picker, View} from 'react-native'
+import {Picker, View, ScrollView} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox} from 'react-native-elements'
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
 
@@ -28,14 +28,22 @@ export default class NewQuestion extends React.Component {
             subtitle: question.subtitle,
             points: question.points,
             type: 'MultipleChoiceExamQuestion'
-        })
+        }).then(() => this.props.refresh())
     }
 
 
 
     render() {
         return (
-            <View>
+            <ScrollView>
+                <Button backgroundColor="green"
+                        style={{marginTop: 20}}
+                        color="white"
+                        title="Add New Question"
+                        onPress={() => {
+                            this.createQuestion();
+                        }}
+                />
                 <Picker
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({questionType: itemValue})}
@@ -75,13 +83,8 @@ export default class NewQuestion extends React.Component {
                     }/>
 
 
-                <Button backgroundColor="green"
-                        style={{marginTop: 20}}
-                        color="white"
-                        title="Save"
-                        onPress={() => this.createQuestion()}
-                />
-            </View>
+
+            </ScrollView>
 
         )
     }

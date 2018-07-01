@@ -18,6 +18,11 @@ export default class ChoiceServiceClient {
         return this[_singleton];
     }
 
+    findAllQuestionsForExam(id) {
+        return fetch(API_1.replace("EID", id))
+            .then(response => response.json());
+    }
+
 
     createQuestionForExam(id, question) {
         console.log(id, question);
