@@ -12,6 +12,7 @@ export default class EditExamWidget extends React.Component {
     render() {
         let {navigation} = this.props;
         let exam = navigation.getParam('exam');
+        console.log(exam);
         return (
             <ScrollView style={{padding: 10}}>
 
@@ -28,7 +29,7 @@ export default class EditExamWidget extends React.Component {
                         title="Add new question"
                 />
 
-                <NewQuestion/>
+                <NewQuestion exam={exam}/>
 
 
             </ScrollView>
