@@ -4,6 +4,7 @@ import {ListItem, Text, Button, Icon} from 'react-native-elements'
 import NewQuestion from "../elements/NewQuestion";
 import BaseServiceClient from "../services/BaseServiceClient";
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
+import MultipleChoiceEditor from "../elements/MultipleChoiceEditor";
 
 export default class EditExamWidget extends React.Component {
 
@@ -44,6 +45,9 @@ export default class EditExamWidget extends React.Component {
                         title={question.title}
                         subtitle={question.subtitle}
                         key={question.id}
+                        onPress={() => {
+                            this.props.navigation.navigate('MultipleChoiceEditor');
+                        }}
                     />
                 )
             }
@@ -53,7 +57,7 @@ export default class EditExamWidget extends React.Component {
     refresh() {
         let {navigation} = this.props;
         let exam = navigation.getParam('exam');
-        this.findAllChoice(exam.id)
+        this.findAllChoice(exam.id);
     }
 
     render() {

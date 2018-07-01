@@ -12,7 +12,7 @@ export default class NewQuestion extends React.Component {
         this.state = {
             subtitle: '',
             title: '',
-            points: '0',
+            points: '',
             questionType: ''
         };
 

@@ -11,6 +11,7 @@ import AssignmentWidget from './components/AssignmentWidget'
 import EditAssignmentWidget from "./components/EditAssignmentWidget";
 import ExamWidget from "./components/ExamWidget";
 import EditExamWidget from "./components/EditExamWidget";
+import MultipleChoiceEditor from "./elements/MultipleChoiceEditor";
 
 class Home extends React.Component {
 
@@ -54,7 +55,8 @@ const App = createStackNavigator({
     AssignmentWidget,
     EditAssignmentWidget,
     ExamWidget,
-    EditExamWidget
+    EditExamWidget,
+    MultipleChoiceEditor
 });
 
 
