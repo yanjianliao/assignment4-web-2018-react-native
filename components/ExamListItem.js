@@ -15,6 +15,14 @@ export default class ExamListItem extends React.Component {
         return (
 
             <ListItem
+                onPress={
+                    () => {
+                        this.props.navigation.navigate('EditExamWidget', {
+                            refresh: this.props.refresh(),
+                            exam: exam
+                        });
+                    }
+                }
                 title={"title : " + exam.title}
                 subtitle={"description : " + exam.description}
                 rightIcon={<Icon

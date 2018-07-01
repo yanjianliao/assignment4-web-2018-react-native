@@ -29,9 +29,10 @@ export default class AssignmentWidget extends React.Component {
                     title: this.state.title,
                     description: this.state.description,
                     points: this.state.points
-                }).then(() => {
-            refresh();
-            this.props.navigation.goBack();
+                }).then(
+                    () => {
+                        refresh();
+                        this.props.navigation.goBack();
         });
 
 

@@ -6,6 +6,7 @@ import AssignmentListItem from "./AssignmentListItem";
 import AssignmentServiceClient from "../services/AssignmentServiceClient";
 import ExamServiceClient from "../services/ExamServiceClient";
 import ExamListItem from "./ExamListItem";
+import EditExamWidget from "./EditExamWidget";
 const WIDGET_API = 'http://localhost:8080/api/topic/';
 
 export default class WidgetList extends React.Component {

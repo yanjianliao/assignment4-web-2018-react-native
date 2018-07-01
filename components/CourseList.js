@@ -21,7 +21,7 @@ export default class CourseList extends React.Component {
             .then(courses => {
                 this.setState({
                     courses: courses
-                })
+                });
             });
     }
 

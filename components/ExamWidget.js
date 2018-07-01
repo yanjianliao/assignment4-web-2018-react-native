@@ -37,9 +37,7 @@ export default class ExamWidget extends React.Component {
 
     render() {
         return(
-
             <View>
-
                 <Text h4>
                     Add New Exam
                 </Text>
@@ -87,7 +85,7 @@ export default class ExamWidget extends React.Component {
                     description : {this.state.description}
                 </Text>
 
-                
+
 
 
             </View>
