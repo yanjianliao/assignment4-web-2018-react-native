@@ -7,6 +7,7 @@ import ChoiceServiceClient from "../services/ChoiceServiceClient";
 import MultipleChoiceQuestionWidget from "../elements/MultipleChoiceQuestionWidget";
 import EssayServiceClient from "../services/EssayServiceClient";
 import BlanksServiceClient from "../services/BlanksServiceClient";
+import FillInTheBlanksQuestionWidget from "../elements/FillInTheBlanksQuestionWidget";
 
 export default class EditExamWidget extends React.Component {
 
@@ -47,12 +48,12 @@ export default class EditExamWidget extends React.Component {
     }
     findAllEssay(id) {
         this.essayServiceClient.findAllQuestionsForExam(id)
-            .then((questions) => {this.setState({essayQuestion : questions}); console.log(questions)})
+            .then((questions) => {this.setState({essayQuestion : questions})})
     }
 
     findAllBlank(id) {
         this.blankServiceClient.findAllQuestionsForExam(id)
-            .then((questions) => {this.setState({blankQuestion : questions}); console.log(questions)})
+            .then((questions) => {this.setState({blankQuestion : questions})})
     }
 
     renderBlank() {
@@ -63,11 +64,11 @@ export default class EditExamWidget extends React.Component {
                         title={question.title}
                         subtitle={question.subtitle}
                         key={question.id}
-                        // onPress={() => {
-                        //     this.props.navigation.navigate('EssayQuestionWidget', {
-                        //         question: question, refresh: this.refresh
-                        //     });
-                        // }}
+                        onPress={() => {
+                            this.props.navigation.navigate('FillInTheBlanksQuestionWidget', {
+                                question: question, refresh: this.refresh
+                            });
+                        }}
                         chevronColor='green'
                         leftIcon={<Icon
                             name='airplay'

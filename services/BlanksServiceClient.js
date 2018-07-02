@@ -36,6 +36,7 @@ export default class BlanksServiceClient {
     }
 
     updateQuestion(id, question) {
+        console.log(question);
         return fetch(API_2 + id, {
             method: 'put',
             body: JSON.stringify(question),

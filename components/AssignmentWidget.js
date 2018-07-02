@@ -115,7 +115,6 @@ export default class AssignmentWidget extends React.Component {
                     style={{borderRadius: 5}}
                     backgroundColor="white"
                     multiline={true}
-
                 >
                 </TextInput>
 
