@@ -4,6 +4,7 @@ import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox} fro
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
 import EssayServiceClient from "../services/EssayServiceClient";
 import BlanksServiceClient from "../services/BlanksServiceClient";
+import TrueFalseServiceClient from "../services/TrueFalseServiceClient";
 
 const types = {
     mc: 'MC',
@@ -27,6 +28,7 @@ export default class NewQuestion extends React.Component {
         this.choiceServiceClient = ChoiceServiceClient.instance;
         this.essayServiceClient = EssayServiceClient.instance;
         this.blanksServiceClient = BlanksServiceClient.instance;
+        this.trueFalseServiceClient = TrueFalseServiceClient.instance;
         this.createQuestion = this.createQuestion.bind(this);
     }
 
@@ -36,7 +38,7 @@ export default class NewQuestion extends React.Component {
         if(this.state.questionType === types.es ) {
             create = this.essayServiceClient.createQuestionForExam;
         } else if(this.state.questionType === types.tf) {
-            return;
+            create = this.trueFalseServiceClient.createQuestionForExam;
         } else if(this.state.questionType === types.fb) {
             create = this.blanksServiceClient.createQuestionForExam;
         }

@@ -8,6 +8,8 @@ import MultipleChoiceQuestionWidget from "../elements/MultipleChoiceQuestionWidg
 import EssayServiceClient from "../services/EssayServiceClient";
 import BlanksServiceClient from "../services/BlanksServiceClient";
 import FillInTheBlanksQuestionWidget from "../elements/FillInTheBlanksQuestionWidget";
+import TrueFalseServiceClient from "../services/TrueFalseServiceClient";
+import TrueOrFalseQuestionWidget from "../elements/TrueOrFalseQuestionWidget";
 
 export default class EditExamWidget extends React.Component {
 
@@ -17,20 +19,22 @@ export default class EditExamWidget extends React.Component {
         this.state = {
             choicesQuestion: [],
             essayQuestion: [],
-            blankQuestion: []
+            blankQuestion: [],
+            trueFalseQuestion: []
         };
 
 
         this.choiceServiceClient = ChoiceServiceClient.instance;
         this.essayServiceClient = EssayServiceClient.instance;
         this.blankServiceClient = BlanksServiceClient.instance;
+        this.trueFalseServiceClient = TrueFalseServiceClient.instance;
         this.findAllChoice = this.findAllChoice.bind(this);
         this.findAllEssay = this.findAllEssay.bind(this);
         this.renderChoice = this.renderChoice.bind(this);
         this.renderEssay = this.renderEssay.bind(this);
         this.findAllBlank = this.findAllBlank.bind(this);
         this.renderBlank = this.renderBlank.bind(this);
-
+        this.findAllTrueFalse = this.findAllTrueFalse.bind(this);
         this.refresh = this.refresh.bind(this);
     }
 
@@ -39,7 +43,8 @@ export default class EditExamWidget extends React.Component {
         let exam = navigation.getParam('exam');
         this.findAllChoice(exam.id);
         this.findAllEssay(exam.id);
-        this.findAllBlank(exam.id)
+        this.findAllBlank(exam.id);
+        this.findAllTrueFalse(exam.id);
     }
 
     findAllChoice(id) {
@@ -54,6 +59,35 @@ export default class EditExamWidget extends React.Component {
     findAllBlank(id) {
         this.blankServiceClient.findAllQuestionsForExam(id)
             .then((questions) => {this.setState({blankQuestion : questions})})
+    }
+
+    findAllTrueFalse(id) {
+        this.trueFalseServiceClient.findAllQuestionsForExam(id)
+            .then((questions) => {this.setState({trueFalseQuestion : questions})})
+    }
+
+    renderTrueFalse() {
+        return this.state.trueFalseQuestion.map(
+            question => {
+                return(
+                    <ListItem
+                        title={question.title}
+                        subtitle={question.subtitle}
+                        key={question.id}
+                        onPress={() => {
+                            this.props.navigation.navigate('TrueOrFalseQuestionWidget', {
+                                question: question, refresh: this.refresh
+                            });
+                        }}
+                        chevronColor='grey'
+                        leftIcon={<Icon
+                            name='link'
+                            size={30}
+                            color='black' />}
+                    />
+                )
+            }
+        )
     }
 
     renderBlank() {
@@ -137,6 +171,7 @@ export default class EditExamWidget extends React.Component {
         this.findAllChoice(exam.id);
         this.findAllEssay(exam.id);
         this.findAllBlank(exam.id);
+        this.findAllTrueFalse(exam.id);
         Alert.alert("success!");
     }
 
@@ -159,6 +194,7 @@ export default class EditExamWidget extends React.Component {
                 {this.renderChoice()}
                 {this.renderEssay()}
                 {this.renderBlank()}
+                {this.renderTrueFalse()}
 
                 <NewQuestion
                     exam={exam}

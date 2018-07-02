@@ -14,6 +14,7 @@ import EditExamWidget from "./components/EditExamWidget";
 import MultipleChoiceQuestionWidget from "./elements/MultipleChoiceQuestionWidget";
 import EssayQuestionWidget from "./elements/EssayQuestionWidget";
 import FillInTheBlanksQuestionWidget from "./elements/FillInTheBlanksQuestionWidget";
+import TrueOrFalseQuestionWidget from "./elements/TrueOrFalseQuestionWidget";
 
 class Home extends React.Component {
 
@@ -43,7 +44,7 @@ class Home extends React.Component {
           />
           {/*<ListItem*/}
               {/*leftIcon={<Icon*/}
-                  {/*name='airplay'*/}
+                  {/*name='link'*/}
                   {/*size={30}*/}
                   {/*color='black' />}*/}
           {/*/>*/}
@@ -68,7 +69,8 @@ const App = createStackNavigator({
     EditExamWidget,
     MultipleChoiceQuestionWidget,
     EssayQuestionWidget,
-    FillInTheBlanksQuestionWidget
+    FillInTheBlanksQuestionWidget,
+    TrueOrFalseQuestionWidget
 });
 
 
