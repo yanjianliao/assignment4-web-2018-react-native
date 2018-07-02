@@ -2,9 +2,10 @@ import React from 'react'
 import {Picker, View, ScrollView} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox,Icon} from 'react-native-elements'
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
+import EssayServiceClient from "../services/EssayServiceClient";
 
 
-export default class MultipleChoiceEditor extends React.Component {
+export default class MultipleChoiceQuestionWidget extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,12 +16,13 @@ export default class MultipleChoiceEditor extends React.Component {
             description: '',
             rightChoiceName: '',
             rightIndex: -1,
-            choices: [{name: '123'},{name: '321'}],
+            choices: [],
             newChoiceName: ''
         };
 
         this.renderChoice = this.renderChoice.bind(this);
         this.choiceServiceClient = ChoiceServiceClient.instance;
+        this.essayServiceClien = EssayServiceClient.instance;
 
     }
 
@@ -40,10 +42,10 @@ export default class MultipleChoiceEditor extends React.Component {
     }
 
 
+
     renderChoice() {
         return this.state.choices.map(
             (choice,index) => {
-
                 return (
                     <View
                         key={index}
@@ -91,21 +93,45 @@ export default class MultipleChoiceEditor extends React.Component {
         let question = navigation.getParam('question');
         let refresh = navigation.getParam('refresh');
         return (
-            <ScrollView>
-                <FormLabel>
-                    title
-                </FormLabel>
-                <FormInput
-                    value={this.state.title}
-                    onChangeText={
-                        text => this.setState({title: text})}
-                />
+            <ScrollView style={{padding: 5}}>
+                <Button backgroundColor="red"
+                        style={{marginTop: 20}}
+                        color="white"
+                        title="delete this question"
+                        onPress={ () => {
+                            navigation.goBack();
+                            this.choiceServiceClient
+                                .deleteQuestionById(question.id)
+                                .then(() => refresh())
+                        }
+                }/>
 
+
+                <Text h4>
+                    Preview
+                </Text>
+
+                <View style={{
+                    flexDirection : 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    <Text h4>
+                        title : {this.state.title}
+                    </Text>
+
+                    <Text h4>
+                        {this.state.points} pts
+                    </Text>
+                </View>
+
+                <Text h4>
+                    description : {this.state.description}
+                </Text>
 
                 {this.renderChoice()}
 
                 <FormLabel>
-                    title
+                    new choice title
                 </FormLabel>
                 <FormInput
                     value={this.state.newChoiceName}
@@ -118,7 +144,6 @@ export default class MultipleChoiceEditor extends React.Component {
                         color="white"
                         title="Add New Choice"
                         onPress={() => {
-                            console.log(this.state.newChoiceName, this.state.rightChoiceName);
                             this.setState({
                                 choices: [
                                     ...this.state.choices,
@@ -128,21 +153,42 @@ export default class MultipleChoiceEditor extends React.Component {
 
                         }}
                 />
-                <Button backgroundColor="green"
-                        style={{marginTop: 20}}
-                        color="white"
-                        title="Save"
-                        onPress={() => {
-                            navigation.goBack();
-                            this.choiceServiceClient
-                                .updateQuestion(question.id, this.state)
-                                .then(() => {
-                                    refresh();
-                                });
 
-                        }}
+                <View style={{
+                    flexDirection : 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    <Button backgroundColor="blue"
+                            style={{marginTop: 20}}
+                            color="white"
+                            title="Submit"
+                            onPress={() => {
+                                navigation.goBack();
+                                this.choiceServiceClient
+                                    .updateQuestion(question.id, this.state)
+                                    .then(() => {
+                                        refresh();
+                                    });
+                            }}
+                    />
+                    <Button backgroundColor="red"
+                            style={{marginTop: 20}}
+                            color="white"
+                            title="cancel"
+                            onPress={() => {
+                                navigation.goBack();
+                            }}
+                    />
+                </View>
+
+                <FormLabel>
+                    question title
+                </FormLabel>
+                <FormInput
+                    value={this.state.title}
+                    onChangeText={
+                        text => this.setState({title: text})}
                 />
-
                 <FormLabel>
                     subtitle
                 </FormLabel>

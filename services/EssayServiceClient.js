@@ -1,21 +1,17 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/exam/EID/choice';
-const API_2 = 'http://localhost:8080/api/choice/';
+const API_1 = 'http://localhost:8080/api/exam/EID/essay';
+const API_2 = 'http://localhost:8080/api/essay/';
 
-
-export default class ChoiceServiceClient {
-
-
+export default class EssayServiceClient {
     constructor(singleToken) {
         if (_singleton !== singleToken) {
             throw new Error('Cannot instantiate directly!')
         }
     }
 
-
     static get instance() {
         if (!this[_singleton])
-            this[_singleton] = new ChoiceServiceClient(_singleton);
+            this[_singleton] = new EssayServiceClient(_singleton);
 
         return this[_singleton];
     }
@@ -37,6 +33,7 @@ export default class ChoiceServiceClient {
     }
 
     updateQuestion(id, question) {
+        console.log(question);
         return fetch(API_2 + id, {
             method: 'put',
             body: JSON.stringify(question),
@@ -51,4 +48,5 @@ export default class ChoiceServiceClient {
             method: 'delete'
         });
     }
+
 }

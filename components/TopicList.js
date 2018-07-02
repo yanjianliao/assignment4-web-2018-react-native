@@ -11,7 +11,6 @@ export default class TopicList extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             courseId: 1,
             moduleId: 1,

@@ -1,10 +1,9 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/exam/EID/choice';
-const API_2 = 'http://localhost:8080/api/choice/';
+const API_1 = 'http://localhost:8080/api/exam/EID/blanks';
+const API_2 = 'http://localhost:8080/api/blanks/';
 
 
-export default class ChoiceServiceClient {
-
+export default class BlanksServiceClient {
 
     constructor(singleToken) {
         if (_singleton !== singleToken) {
@@ -15,7 +14,7 @@ export default class ChoiceServiceClient {
 
     static get instance() {
         if (!this[_singleton])
-            this[_singleton] = new ChoiceServiceClient(_singleton);
+            this[_singleton] = new BlanksServiceClient(_singleton);
 
         return this[_singleton];
     }
@@ -51,4 +50,6 @@ export default class ChoiceServiceClient {
             method: 'delete'
         });
     }
+
+
 }

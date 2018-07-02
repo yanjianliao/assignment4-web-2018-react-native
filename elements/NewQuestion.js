@@ -2,7 +2,15 @@ import React from 'react'
 import {Picker, View, ScrollView} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox} from 'react-native-elements'
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
+import EssayServiceClient from "../services/EssayServiceClient";
+import BlanksServiceClient from "../services/BlanksServiceClient";
 
+const types = {
+    mc: 'MC',
+    es : 'ES',
+    tf: 'TF',
+    fb: 'FB'
+};
 
 export default class NewQuestion extends React.Component {
 
@@ -13,21 +21,31 @@ export default class NewQuestion extends React.Component {
             subtitle: '',
             title: '',
             points: '',
-            questionType: ''
+            questionType: 'MC'
         };
 
         this.choiceServiceClient = ChoiceServiceClient.instance;
-
+        this.essayServiceClient = EssayServiceClient.instance;
+        this.blanksServiceClient = BlanksServiceClient.instance;
         this.createQuestion = this.createQuestion.bind(this);
     }
 
     createQuestion() {
         let question = this.state;
-        return this.choiceServiceClient.createQuestionForExam(this.props.exam.id, {
+        let create = this.choiceServiceClient.createQuestionForExam;
+        if(this.state.questionType === types.es ) {
+            create = this.essayServiceClient.createQuestionForExam;
+        } else if(this.state.questionType === types.tf) {
+            return;
+        } else if(this.state.questionType === types.fb) {
+            create = this.blanksServiceClient.createQuestionForExam;
+        }
+
+        return create(this.props.exam.id, {
             title: question.title,
             subtitle: question.subtitle,
             points: question.points,
-            type: 'MultipleChoiceExamQuestion'
+            type: this.state.questionType
         }).then(() => this.props.refresh())
     }
 

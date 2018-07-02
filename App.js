@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import {Button} from 'react-native-elements'
+import {Button,ListItem, Icon} from 'react-native-elements'
 import { createStackNavigator } from 'react-navigation'
 import CourseList from './components/CourseList'
 import ModuleList from './components/ModuleList'
@@ -11,7 +11,8 @@ import AssignmentWidget from './components/AssignmentWidget'
 import EditAssignmentWidget from "./components/EditAssignmentWidget";
 import ExamWidget from "./components/ExamWidget";
 import EditExamWidget from "./components/EditExamWidget";
-import MultipleChoiceEditor from "./elements/MultipleChoiceEditor";
+import MultipleChoiceQuestionWidget from "./elements/MultipleChoiceQuestionWidget";
+import EssayQuestionWidget from "./elements/EssayQuestionWidget";
 
 class Home extends React.Component {
 
@@ -39,6 +40,14 @@ class Home extends React.Component {
                   .navigate('TopicList', {courseId: 42, moduleId: 102, lessonId: 52})
               }
           />
+          {/*<ListItem*/}
+              {/*leftIcon={<Icon*/}
+                  {/*name='airplay'*/}
+                  {/*size={30}*/}
+                  {/*color='black' />}*/}
+          {/*/>*/}
+
+
       </ScrollView>
     );
   }
@@ -56,7 +65,8 @@ const App = createStackNavigator({
     EditAssignmentWidget,
     ExamWidget,
     EditExamWidget,
-    MultipleChoiceEditor
+    MultipleChoiceQuestionWidget,
+    EssayQuestionWidget
 });
 
 
