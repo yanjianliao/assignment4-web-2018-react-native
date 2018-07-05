@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Alert, ScrollView} from 'react-native'
-import {ListItem, Text, Button, Icon, } from 'react-native-elements'
+import {FormLabel, FormInput, ListItem, Text, Button, Icon, } from 'react-native-elements'
 import NewQuestion from "../elements/NewQuestion";
 import BaseServiceClient from "../services/BaseServiceClient";
 import ChoiceServiceClient from "../services/ChoiceServiceClient";
@@ -10,6 +10,7 @@ import BlanksServiceClient from "../services/BlanksServiceClient";
 import FillInTheBlanksQuestionWidget from "../elements/FillInTheBlanksQuestionWidget";
 import TrueFalseServiceClient from "../services/TrueFalseServiceClient";
 import TrueOrFalseQuestionWidget from "../elements/TrueOrFalseQuestionWidget";
+import ExamServiceClient from "../services/ExamServiceClient";
 
 export default class EditExamWidget extends React.Component {
 
@@ -20,7 +21,10 @@ export default class EditExamWidget extends React.Component {
             choicesQuestion: [],
             essayQuestion: [],
             blankQuestion: [],
-            trueFalseQuestion: []
+            trueFalseQuestion: [],
+            title: '',
+            description: '',
+            points: ''
         };
 
 
@@ -28,6 +32,7 @@ export default class EditExamWidget extends React.Component {
         this.essayServiceClient = EssayServiceClient.instance;
         this.blankServiceClient = BlanksServiceClient.instance;
         this.trueFalseServiceClient = TrueFalseServiceClient.instance;
+        this.examServiceClient = ExamServiceClient.instance;
         this.findAllChoice = this.findAllChoice.bind(this);
         this.findAllEssay = this.findAllEssay.bind(this);
         this.renderChoice = this.renderChoice.bind(this);
@@ -45,6 +50,11 @@ export default class EditExamWidget extends React.Component {
         this.findAllEssay(exam.id);
         this.findAllBlank(exam.id);
         this.findAllTrueFalse(exam.id);
+        this.setState({
+            title: exam.title,
+            description: exam.description,
+            points: exam.points
+        });
     }
 
     findAllChoice(id) {
@@ -178,15 +188,73 @@ export default class EditExamWidget extends React.Component {
     render() {
         let {navigation} = this.props;
         let exam = navigation.getParam('exam');
+        let refresh = navigation.getParam('refresh');
         return (
             <ScrollView style={{padding: 10}}>
 
+                <View style={{
+                    flexDirection : 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    <Text h4>
+                        title : {this.state.title}
+                    </Text>
+
+                    <Text h4>
+                        {this.state.points} pts
+                    </Text>
+                </View>
+
                 <Text h4>
-                    Exam Title: {exam.title}
+                    Exam Description: {this.state.description}
                 </Text>
-                <Text h4>
-                    Exam Description: {exam.description}
-                </Text>
+
+                <FormLabel>
+                    exam title
+                </FormLabel>
+                <FormInput
+                    value={this.state.title}
+                    onChangeText={
+                        text => this.setState({title: text})}
+                />
+                <FormLabel>
+                    exam description
+                </FormLabel>
+                <FormInput
+                    value={this.state.description}
+                    onChangeText={
+                        text => this.setState({description: text})
+                    }/>
+                <FormLabel>
+                    exam Points
+                </FormLabel>
+
+                <FormInput
+                    value={this.state.points}
+                    onChangeText={
+                        text => this.setState({points: text})
+                    }/>
+
+                <Button backgroundColor="blue"
+                        style={{marginTop: 20, marginBottom: 20}}
+                        color="white"
+                        title="Update Exam"
+                        onPress={() => {
+                            this.examServiceClient
+                                .updateExam(exam.id, {
+                                    points: this.state.points,
+                                    description: this.state.description,
+                                    title: this.state.title
+                                }).then(
+                                () => {
+                                    Alert.alert("success!");
+                                    refresh();
+                                }
+                            )
+
+                        }}
+                />
+
 
                 <Text h4>
                     Question List:

@@ -66,7 +66,7 @@ export default class FillInTheBlanksQuestionWidget extends React.Component {
                         right += str[i];
                     }
                 }
-                console.log(left + '/' + right);
+                // console.log(left + '/' + right);
                 return(
                     <View
                         style={{
@@ -86,6 +86,20 @@ export default class FillInTheBlanksQuestionWidget extends React.Component {
                         <Text h4>
                             {right}
                         </Text>
+                        <Icon
+                            name='delete-forever'
+                            size={30}
+                            onPress={
+                                () => this.setState({
+                                    variables: this.state.variables.filter(
+                                        (cur) => {
+                                            return cur.variable !== v.variable
+                                        }
+                                    )
+                                })
+                            }
+                            color='black'
+                        />
                     </View>
                 )
             }

@@ -111,12 +111,24 @@ export default class AssignmentWidget extends React.Component {
                     Upload a file
                 </Text>
 
-                <TextInput
-                    style={{borderRadius: 5}}
-                    backgroundColor="white"
-                    multiline={true}
-                >
-                </TextInput>
+                <View style={{
+                    flexDirection : 'row', borderRadius: 5, backgroundColor: 'white'
+                }}>
+                    <Button
+                            style={{
+                                borderWidth: 1,
+                                borderColor: 'grey',
+                            }}
+                            backgroundColor="white"
+                            color="black"
+                            title="choose file"
+                    />
+                    <Text h4 >
+                        No file chosen
+                    </Text>
+                </View>
+
+
 
                 <Text h4 >
                     Submit a link
@@ -131,12 +143,12 @@ export default class AssignmentWidget extends React.Component {
                 <View style={{flexDirection : 'row', borderRadius: 5}}>
                     <Button backgroundColor="red"
                             color="white"
-                            style={{marginTop: 20}}
+                            style={{marginTop: 20 , marginBottom: 50, borderRadius: 5 }}
                             title="cancel"
                     />
                     <Button backgroundColor="blue"
                             color="white"
-                            style={{marginTop: 20, borderRadius: 5}}
+                            style={{marginTop: 20, borderRadius: 5, marginBottom: 50}}
                             title="submit"
                     />
                 </View>

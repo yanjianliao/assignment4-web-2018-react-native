@@ -56,14 +56,7 @@ export default class NewQuestion extends React.Component {
     render() {
         return (
             <ScrollView>
-                <Button backgroundColor="green"
-                        style={{marginTop: 20}}
-                        color="white"
-                        title="Add New Question"
-                        onPress={() => {
-                            this.createQuestion();
-                        }}
-                />
+
                 <Picker
                     onValueChange={(itemValue, itemIndex) =>
                         this.setState({questionType: itemValue})}
@@ -73,9 +66,9 @@ export default class NewQuestion extends React.Component {
                     <Picker.Item value="TF" label="True or false" />
                     <Picker.Item value="FB" label="Fill in the blanks" />
                 </Picker>
-                <Text>{this.state.questionType}</Text>
+
                 <FormLabel>
-                    Title
+                    question title
                 </FormLabel>
                 <FormInput
                     value={this.state.title}
@@ -83,7 +76,7 @@ export default class NewQuestion extends React.Component {
                         text => this.setState({title: text})}
                 />
                 <FormLabel>
-                    subtitle
+                    question subtitle
                 </FormLabel>
 
                 <FormInput
@@ -93,7 +86,7 @@ export default class NewQuestion extends React.Component {
                     }/>
 
                 <FormLabel>
-                    Points
+                    question points
                 </FormLabel>
 
                 <FormInput
@@ -102,7 +95,14 @@ export default class NewQuestion extends React.Component {
                         text => this.setState({points: text})
                     }/>
 
-
+                <Button backgroundColor="green"
+                        style={{marginTop: 20, marginBottom: 100}}
+                        color="white"
+                        title="Add New Question"
+                        onPress={() => {
+                            this.createQuestion();
+                        }}
+                />
 
             </ScrollView>
 

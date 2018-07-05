@@ -18,6 +18,16 @@ export default class AssignmentListItem extends React.Component {
                     key={this.props.assignment.id}
                     title={"title : " + this.props.assignment.title}
                     subtitle={"description : " + this.props.assignment.description}
+                    onPress={
+                        () => {
+                            this.props.navigation.navigate(
+                                'EditAssignmentWidget',{
+                                    assignment: this.props.assignment,
+                                    refresh: this.props.refresh
+                                }
+                            )
+                        }
+                    }
                     rightIcon={<Icon
                                 name='delete-forever'
                                 size={30}
@@ -33,22 +43,13 @@ export default class AssignmentListItem extends React.Component {
                                 }
                                 color='black' />}
 
-                    leftIcon={<Icon
-                                iconStyle={{marginRight : 10}}
-                                name='edit' size={30}
-                                color='black'
-                                onPress={
-                                    () => {
-                                        this.props.navigation.navigate(
-                                            'EditAssignmentWidget',{
-                                                assignment: this.props.assignment,
-                                                refresh: this.props.refresh
-                                            }
-                                        )
-                                    }
-                                }
-
-                    />}
+                    // leftIcon={<Icon
+                    //             iconStyle={{marginRight : 10}}
+                    //             name='edit' size={30}
+                    //             color='black'
+                    //
+                    //
+                    // />}
                 />
 
 

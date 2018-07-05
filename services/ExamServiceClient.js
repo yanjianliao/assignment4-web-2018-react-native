@@ -34,7 +34,16 @@ export default class ExamServiceClient {
         )
     }
 
-
+    updateExam(id, exam) {
+        console.log(exam);
+        return fetch(EXAM_API_2 + id, {
+            method: 'put',
+            body: JSON.stringify(exam),
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        });
+    }
     deleteExamById(examId) {
         return fetch(EXAM_API_2 + examId, {
             method : 'delete'

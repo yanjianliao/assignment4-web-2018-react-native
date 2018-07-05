@@ -18,7 +18,7 @@ export default class ExamListItem extends React.Component {
                 onPress={
                     () => {
                         this.props.navigation.navigate('EditExamWidget', {
-                            refresh: this.props.refresh(),
+                            refresh: this.props.refresh,
                             exam: exam
                         });
                     }

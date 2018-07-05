@@ -1,5 +1,5 @@
 import React from 'react'
-import {View} from 'react-native'
+import {View, ScrollView} from 'react-native'
 import {FormLabel, FormInput, FormValidationMessage, Text, Button, CheckBox} from 'react-native-elements'
 import ExamServiceClient from '../services/ExamServiceClient'
 
@@ -37,7 +37,7 @@ export default class ExamWidget extends React.Component {
 
     render() {
         return(
-            <View>
+            <ScrollView style={{padding: 5}} >
                 <Text h4>
                     Add New Exam
                 </Text>
@@ -85,10 +85,12 @@ export default class ExamWidget extends React.Component {
                     description : {this.state.description}
                 </Text>
 
+                <Text h5>
+                    Note: After adding exam, you will be able to add new questions to it in the exam editor
+                </Text>
 
 
-
-            </View>
+            </ScrollView>
 
 
 
