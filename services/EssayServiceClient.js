@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/exam/EID/essay';
-const API_2 = 'http://localhost:8080/api/essay/';
+const API_1 = 'https://first-yanjianliao.herokuapp.com/api/exam/EID/essay';
+const API_2 = 'https://first-yanjianliao.herokuapp.com/api/essay/';
 
 export default class EssayServiceClient {
     constructor(singleToken) {

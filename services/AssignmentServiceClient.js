@@ -1,6 +1,6 @@
 
-const ASSIGNMENT_API_1 = 'http://localhost:8080/api/topic/TID/assignment';
-const ASSIGNMENT_API_2 = 'http://localhost:8080/api/assignment/';
+const ASSIGNMENT_API_1 = 'https://first-yanjianliao.herokuapp.com/api/topic/TID/assignment';
+const ASSIGNMENT_API_2 = 'https://first-yanjianliao.herokuapp.com/api/assignment/';
 let _singleton = Symbol();
 
 
@@ -47,6 +47,7 @@ export default class AssignmentServiceClient {
     }
 
     updateAssignmentById(id, assignment) {
+        console.log(id, assignment);
         return fetch(ASSIGNMENT_API_2 + id, {
             method: 'put',
             body: JSON.stringify(assignment),

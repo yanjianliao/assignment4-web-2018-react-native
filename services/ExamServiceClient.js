@@ -1,6 +1,6 @@
 
-const EXAM_API_1 = 'http://localhost:8080/api/topic/TID/exam';
-const EXAM_API_2 = 'http://localhost:8080/api/exam/';
+const EXAM_API_1 = 'https://first-yanjianliao.herokuapp.com/api/topic/TID/exam';
+const EXAM_API_2 = 'https://first-yanjianliao.herokuapp.com/api/exam/';
 let _singleton = Symbol();
 
 export default class ExamServiceClient {

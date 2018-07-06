@@ -2,7 +2,7 @@ import React from 'react'
 import {View} from 'react-native'
 import {ListItem} from 'react-native-elements'
 
-const LESSON_API = "http://localhost:8080/api/course/";
+const LESSON_API = "https://first-yanjianliao.herokuapp.com/api/course/";
 
 export default class LessonList extends React.Component {
 

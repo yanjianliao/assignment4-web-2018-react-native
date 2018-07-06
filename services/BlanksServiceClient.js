@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/exam/EID/blanks';
-const API_2 = 'http://localhost:8080/api/blanks/';
+const API_1 = 'https://first-yanjianliao.herokuapp.com/api/exam/EID/blanks';
+const API_2 = 'https://first-yanjianliao.herokuapp.com/api/blanks/';
 
 
 export default class BlanksServiceClient {

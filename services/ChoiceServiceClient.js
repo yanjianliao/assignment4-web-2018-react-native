@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/exam/EID/choice';
-const API_2 = 'http://localhost:8080/api/choice/';
+const API_1 = 'https://first-yanjianliao.herokuapp.com/api/exam/EID/choice';
+const API_2 = 'https://first-yanjianliao.herokuapp.com/api/choice/';
 
 
 export default class ChoiceServiceClient {

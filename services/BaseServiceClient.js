@@ -1,5 +1,5 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/questions';
+const API_1 = 'https://first-yanjianliao.herokuapp.com/api/questions';
 
 export default class BaseServiceClient {
 

@@ -1,6 +1,6 @@
 let _singleton = Symbol();
-const API_1 = 'http://localhost:8080/api/exam/EID/truefalse';
-const API_2 = 'http://localhost:8080/api/truefalse/';
+const API_1 = 'https://first-yanjianliao.herokuapp.com/api/exam/EID/truefalse';
+const API_2 = 'https://first-yanjianliao.herokuapp.com/api/truefalse/';
 
 export default class TrueFalseServiceClient {
     constructor(singleToken) {
